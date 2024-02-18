@@ -10,6 +10,21 @@ export const InputPage = () => {
   const [found, setFound] = useState(true);
   const [edit, setEdit] = useState();
   const { list } = useSelector((state) => state.todo);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    if (list) {
+      localStorage.setItem("todoList", JSON.stringify(list));
+      const storedListString = localStorage.getItem("todoList");
+      if (storedListString) {
+        const storedList = JSON.parse(storedListString);
+        setData(storedList);
+      } else {
+        console.log("No list found in localStorage");
+      }
+    } else {
+      console.log("List is undefined or null");
+    }
+  }, [list]);
 
   const inputHandler = (e) => {
     setInputData({ ...inputData, [e.target.name]: e.target.value });
@@ -58,7 +73,6 @@ export const InputPage = () => {
   const deleteHandler = (id) => {
     dispatch(removeTodo({ id }));
   };
-  console.log(list);
   return (
     <>
       <div className="w-full border border-red-500 rounded-md overflow-hidden flex justify-between h-10">
@@ -69,8 +83,8 @@ export const InputPage = () => {
       </div>
 
       <div className="w-full flex flex-col border mt-2 rounded-sm">
-        {list.length !== 0
-          ? list.map((item, i) => {
+        {data.length !== 0
+          ? data.map((item, i) => {
               return (
                 <>
                   <div className="flex justify-between px-3 py-1" key={i}>

@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   list: [],
-  check: [],
 };
 
 export const todoSlice = createSlice({
